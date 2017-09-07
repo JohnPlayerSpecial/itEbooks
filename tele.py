@@ -4,45 +4,29 @@ from telegram import *
 import logging
 import sqlite3
 from random import randint
-import threading
 import urllib
 from urllib import *
 from urllib.request import urlopen
 import json
 import os
 import time
-import threading
 import re
 import cgi
-
-TOKEN_TELEGRAM = '352887843:AAGFmxDpBFc9v6__gN6c2kQF9wntbkahtE4'
-
-NGROK_URL = ""
 import urllib.request
+
+STRING_DB = os.environ['DATABASE_URL']
+TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
+
+'''
 external_ip = urllib.request.urlopen('http://ident.me').read().decode('utf8')
 NGROK_URL = external_ip + ":12345"
-NGROK_URL =  "http://csprio30.ddns.net:12345"
-PATH = "/media/me/myPassport/it-ebooks/"
+'''
 
-def getNGROK_URL():
-	global NGROK_URL
-	a = urlopen('http://127.0.0.1:4040/api/tunnels')
-	jsonString =  a.read().decode('utf-8')
-	o = json.loads( jsonString )  
-	public_url = o['tunnels'][0]['public_url']
-	print(public_url)
-	NGROK_URL = public_url
-
-def startNGROK():
-	os.system('./ngrok http 5049')
-
-def startHTTPServer():
-	os.system('cd "/media/me/My Passport/it-ebooks/";python -m SimpleHTTPServer 5049')
-	
+NGROK_URL =   os.environ['NGROK_URL']
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
-DATABASE_NAME = '/home/me/Desktop/itebooks2erondata.db'
+
 
 WAIT_FOR_USER_TO_PRESS_DOWNLOAD, WAIT_FOR_USER_TO_TRY_TO_BUY_DOWNLOAD, WAIT_FOR_USER_TO_BUY_DOWNLOAD = range(3)
 MAX_FILESIZE_FREE_DOWNLOAD = 300
@@ -299,41 +283,3 @@ def main():
  
 if __name__ == '__main__':
     main()
-    
-    
-'''
-else:
-		#send invoice
-		print("i will make me pay the file")
-		#print(dir(update.callback_query))
-		provider_token = '284685063:TEST:ZmUxNWQzM2Y0YzU5'
-		title = allResults[0][1]
-		description = allResults[0][10]
-		payload = "ciao"
-		currency = "EUR"
-		start_parameter = "START_PARAMETER"
-		photo_url = allResults[0][4] 
-		price = 2
-		sconto = 0
-		IVA = 22
-		final_my_price = price * 100 -1 * price * sconto
-		prices = [	
-							LabeledPrice(title, price * 100),
-							LabeledPrice("Sconto {}%".format(sconto), -1 * price * sconto   ),  
-							LabeledPrice("IVA {}%".format(IVA), (IVA/100) * ( final_my_price ))          
-				 ]
-
-		bot.sendInvoice(
-						chat_id = update.callback_query.message.chat_id, 
-						title = title,
-						description = description, 
-						payload = payload, 
-						currency = currency, 
-						prices = prices, 
-						start_parameter = start_parameter,
-						provider_token = provider_token,
-						photo_url = photo_url
-						)
-
-		return 3
-'''
