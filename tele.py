@@ -15,34 +15,12 @@ import threading
 import re
 import cgi
 
-TOKEN_TELEGRAM = '352887843:AAGFmxDpBFc9v6__gN6c2kQF9wntbkahtE4'
-
-NGROK_URL = ""
-import urllib.request
-external_ip = urllib.request.urlopen('http://ident.me').read().decode('utf8')
-NGROK_URL = external_ip + ":12345"
-NGROK_URL =  "http://csprio30.ddns.net:12345"
-PATH = "/media/me/myPassport/it-ebooks/"
-
-def getNGROK_URL():
-	global NGROK_URL
-	a = urlopen('http://127.0.0.1:4040/api/tunnels')
-	jsonString =  a.read().decode('utf-8')
-	o = json.loads( jsonString )  
-	public_url = o['tunnels'][0]['public_url']
-	print(public_url)
-	NGROK_URL = public_url
-
-def startNGROK():
-	os.system('./ngrok http 5049')
-
-def startHTTPServer():
-	os.system('cd "/media/me/My Passport/it-ebooks/";python -m SimpleHTTPServer 5049')
-	
+TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
+NGROK_URL =  os.environ['NGROK_URL']
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
-DATABASE_NAME = '/home/me/Desktop/itebooks2erondata.db'
+DATABASE_NAME = 'itebooks2erondata.db'
 
 WAIT_FOR_USER_TO_PRESS_DOWNLOAD, WAIT_FOR_USER_TO_TRY_TO_BUY_DOWNLOAD, WAIT_FOR_USER_TO_BUY_DOWNLOAD = range(3)
 MAX_FILESIZE_FREE_DOWNLOAD = 300
@@ -196,7 +174,7 @@ def moreInfo(bot,update,random = False, reshowPic = "", chat_id = ""):
 	caption = bookName + "\n" + str(numberOfPages) + " pages." + "\n" + fileSize
 	callback_data_more_info = 'RequestMoreInfo_{}'.format(idResult)
 	callback_data_random = 'RequestRandom_{}'.format(randint( 0,7033 ))
-	if os.path.isfile(PATH + bookName + ".pdf"):
+	if True:
 		url = NGROK_URL + "/" + urllib.parse.quote(cgi.escape(bookName)) + ".pdf"
 		AVAILABLE = "Download"
 	else:
@@ -256,7 +234,7 @@ def editMessagewithDescription(bot,update):
 	bot.deleteMessage(chat_id = update.callback_query.message.chat_id, message_id=update.callback_query.message.message_id)
 	callback_data_download = 'downloadAfterMoreInfo_{}'.format(idResult)
 	callback_data_more_info = 'ReshowPicture_{}'.format(idResult)
-	if os.path.isfile(PATH + bookName + ".pdf"):
+	if True:
 		url = NGROK_URL + "/" + urllib.parse.quote(cgi.escape(bookName)) + ".pdf"
 		AVAILABLE = "Download"
 	else:
