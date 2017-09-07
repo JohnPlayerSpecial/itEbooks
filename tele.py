@@ -16,12 +16,6 @@ import urllib.request
 
 STRING_DB = os.environ['DATABASE_URL']
 TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
-
-'''
-external_ip = urllib.request.urlopen('http://ident.me').read().decode('utf8')
-NGROK_URL = external_ip + ":12345"
-'''
-
 NGROK_URL =   os.environ['NGROK_URL']
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -41,16 +35,13 @@ def start(bot, update):
 
 
 def sendResults(bot,update, page = 0):
+	global STRING_DB
+	STRING_DB = STRING_DB.replace("postgres","pq")
+	db = postgresql.open(STRING_DB)
 	chat_id = update.message.chat_id
-	conn = sqlite3.connect( DATABASE_NAME ) 
-	cursor = conn.cursor()
 	query = update.message.text
-	
-	string = "SELECT * FROM itEbooks WHERE bookName MATCH '{}'".format(query)
-	cursor.execute( string )           
-	conn.commit()
-	allResults = cursor.fetchall()
-	conn.close()
+	ps = db.prepare( getQueryStringSelectMultiple( query ) )       
+	allResults = ps()
 	
 	if len(allResults) == 0:
 		bot.sendMessage(chat_id = update.message.chat_id, text = "No results were found.", parse_mode = "Html")
