@@ -1,1 +1,1 @@
-worker: python readl8rbot.py
+worker: python tele.py
