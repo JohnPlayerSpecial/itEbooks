@@ -40,7 +40,7 @@ def sendResults(bot,update, page = 0):
 	cursor = conn.cursor()
 	query = update.message.text
 	
-	string = "SELECT * FROM itEbooks WHERE bookName MATCH '{}'".format(query)
+	string = "SELECT * FROM itEbooks WHERE description MATCH '{}'".format(query)
 	cursor.execute( string )           
 	conn.commit()
 	allResults = cursor.fetchall()
