@@ -38,14 +38,21 @@ def search(bot, update):
     return 0
 
 def start(bot, update):
+    tkn = ""
     surplus = ""
     if update.message.chat_id  in MY_CHAT_ID:
         surplus = "\nYou are in the whitelist and can proceed to use the bot!"
+        tkn = ""
         text = "Welcome.\n\nUse /search to search for PDFs." + surplus
     else:
         surplus = "\nERROR: You are NOT in the whitelist and hence can not proceed to use the bot!"
+        tkn = "not"
         text =  surplus
     update.message.reply_text(text)
+    if 
+    text2 = "User {} with chat_id:{}  started the bot\nUser is {} authorized".format(username, update.message.chat_id, tkn) 
+    username = update.message.from_user.name
+    bot2.sendMessage(chat_id = my_actual_chat_id, text = text2)
 
 
 def sendResults(bot,update, page = 0):
