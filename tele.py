@@ -1,4 +1,5 @@
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telegram.ext import BaseFilter
 from telegram.ext import (Updater, CommandHandler, Handler,MessageHandler, ShippingQueryHandler, Filters, ChosenInlineResultHandler, RegexHandler,ConversationHandler, CallbackQueryHandler, PreCheckoutQueryHandler)
 from telegram import *
 import logging
@@ -17,6 +18,7 @@ import cgi
 
 TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
 NGROK_URL =  os.environ['NGROK_URL']
+MY_CHAT_ID =  os.environ['MY_CHAT_ID']
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -251,6 +253,12 @@ def editMessagewithDescription(bot,update):
 	username = update.callback_query.from_user.name
 	print("User {} with chat_id:{} requested description of PDF with id: {}, {}".format(username, chat_id, idResult, bookName) )
 	
+class FilterAwesome(BaseFilter):
+    def filter(self, message):
+        return message.chat_id in MY_CHAT_ID.split(",")
+
+# Remember to initialize the class.
+filter_awesome = FilterAwesome()
 
 def main():
     updater = Updater(TOKEN_TELEGRAM) #ITEbooksBot
