@@ -15,6 +15,8 @@ import time
 import threading
 import re
 import cgi
+import telegram
+
 
 TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
 TOKEN_TELEGRAM2 = os.environ['TOKEN_TELEGRAM2']
