@@ -269,15 +269,15 @@ def main():
     updater = Updater(TOKEN_TELEGRAM) #ITEbooksBot
     dp = updater.dispatcher
     updater.dispatcher.add_handler(CommandHandler('start', start))
-    updater.dispatcher.add_handler(CommandHandler('random', randomBook, filters = Filters.user(MY_CHAT_ID.split(",") ) ))
-    updater.dispatcher.add_handler(RegexHandler('^/info_\d+', moreInfo, filters = Filters.user(MY_CHAT_ID.split(",") )))
+    updater.dispatcher.add_handler(CommandHandler('random', randomBook, filters = Filters.user(map(int,MY_CHAT_ID.split(",")) ) ))
+    updater.dispatcher.add_handler(RegexHandler('^/info_\d+', moreInfo )))
   
     updater.dispatcher.add_handler(CallbackQueryHandler( editMessageSendMoreResults, pattern = '^EDITMESSAGEpage=' ))
     
     updater.dispatcher.add_handler(CallbackQueryHandler( editMessagewithDescription, pattern = '^RequestMoreInfo_\d+' ))
     updater.dispatcher.add_handler(CallbackQueryHandler( editMessageReshowPicture, pattern = '^ReshowPicture_\d+' ))
     conv_handler = ConversationHandler(
-                                       entry_points = [CommandHandler('search', search, filters = Filters.user(MY_CHAT_ID.split(",")))],
+                                       entry_points = [CommandHandler('search', search, filters = Filters.user(map( int, MY_CHAT_ID.split(","))))],
                                        states = {
                                                  0: [MessageHandler(Filters.text, sendResults)],
                                                 },
