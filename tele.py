@@ -35,10 +35,10 @@ def start(bot, update):
     surplus = ""
     if update.message.chat_id  in MY_CHAT_ID:
         surplus = "\nYou are in the whitelist and can proceed to use the bot!"
-	text = "Welcome.\n\nUse /search to search for PDFs." + surplus
+        text = "Welcome.\n\nUse /search to search for PDFs." + surplus
     else:
         surplus = "\nERROR: You are NOT in the whitelist and hence can not proceed to use the bot!"
-	text =  surplus
+        text =  surplus
     update.message.reply_text(text)
 
 
