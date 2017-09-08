@@ -17,8 +17,12 @@ import re
 import cgi
 
 TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
+TOKEN_TELEGRAM2 = os.environ['TOKEN_TELEGRAM2']
 NGROK_URL =  os.environ['NGROK_URL']
 MY_CHAT_ID =  [ int(x) for x in os.environ['MY_CHAT_ID'].split(",") ]
+my_actual_chat_id = int( os.environ['my_actual_chat_id'] )
+
+bot2 = telegram.Bot(TOKEN_TELEGRAM2)
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -80,7 +84,8 @@ def sendResults(bot,update, page = 0):
 	#print( "EDITMESSAGEpage={},query='{}'".format(page-1,query) )
 	bot.sendMessage(chat_id = chat_id, text = string, parse_mode = "Html", reply_markup = reply_markup)
 	username = update.message.from_user.name
-	print("User {} with chat_id:{} requested PDFs using this keyword: '{}'. Sending {} results.".format(username,chat_id,query, len(allResults)))
+	text2 = "User {} with chat_id:{} requested PDFs using this keyword: '{}'. Sending {} results.".format(username,chat_id,query, len(allResults) )
+	bot2.sendMessage(chat_id = my_actual_chat_id, text = text2)
 	return ConversationHandler.END 
 
 def editMessageSendMoreResults(bot,update):
@@ -133,7 +138,8 @@ def editMessageSendMoreResults(bot,update):
 	bot.editMessageText(chat_id = chat_id, text = string, parse_mode = "Html", message_id = message_id)
 	bot.editMessageReplyMarkup(chat_id = chat_id, message_id = message_id, reply_markup = reply_markup)
 	username = update.callback_query.from_user.name
-	print("User {} with chat_id:{} requested PDFs using this keyword: '{}'. User requested page:{}. Sending {} results.".format(username,chat_id,queryPDF, page,len(allResults)))
+	text2 = "User {} with chat_id:{} requested PDFs using this keyword: '{}'. User requested page:{}. Sending {} results.".format(username,chat_id,queryPDF, page,len(allResults) )
+	bot2.sendMessage(chat_id = my_actual_chat_id, text = text2)
 
 	
 	
@@ -206,9 +212,11 @@ def moreInfo(bot,update,random = False, reshowPic = "", chat_id = ""):
 	reply_markup = InlineKeyboardMarkup( keyboard )
 	bot.sendPhoto(chat_id = chat_id, photo = photoUrl, caption = caption,  reply_markup = reply_markup)
 	if random == True:
-		print("User {} with chat_id:{} requested a random PDF. Serving PDF with  id: {}, {}".format(username, chat_id, idResult, bookName) )
+		text2 = "User {} with chat_id:{} requested a random PDF. Serving PDF with  id: {}, {}".format(username, chat_id, idResult, bookName) 
+		bot2.sendMessage(chat_id = my_actual_chat_id, text = text2)
 	else:
-		print("User {} with chat_id:{} requested more info about PDF with id: {}, {}".format(username, chat_id, idResult, bookName) )
+		text2 = "User {} with chat_id:{} requested more info about PDF with id: {}, {}".format(username, chat_id, idResult, bookName) 
+		bot2.sendMessage(chat_id = my_actual_chat_id, text = text2)
 	return 2	
 			
 def editMessageReshowPicture(bot,update):
@@ -257,7 +265,8 @@ def editMessagewithDescription(bot,update):
 	reply_markup = InlineKeyboardMarkup( keyboard )
 	bot.sendMessage(chat_id = chat_id, text = text , parse_mode = "Html", reply_markup = reply_markup)
 	username = update.callback_query.from_user.name
-	print("User {} with chat_id:{} requested description of PDF with id: {}, {}".format(username, chat_id, idResult, bookName) )
+	text2 = "User {} with chat_id:{} requested description of PDF with id: {}, {}".format(username, chat_id, idResult, bookName) 
+	bot2.sendMessage(chat_id = my_actual_chat_id, text = text2)
 	
 class FilterAwesome(BaseFilter):
     def filter(self, message):
