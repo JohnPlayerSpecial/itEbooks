@@ -255,7 +255,7 @@ def editMessagewithDescription(bot,update):
 	
 class FilterAwesome(BaseFilter):
     def filter(self, message):
-        return message.chat_id in MY_CHAT_ID.split(",")
+        return str(message.chat_id) in MY_CHAT_ID.split(",")
 
 # Remember to initialize the class.
 filter_awesome = FilterAwesome()
