@@ -48,8 +48,7 @@ def start(bot, update):
         surplus = "\nERROR: You are NOT in the whitelist and hence can not proceed to use the bot!"
         tkn = "not"
         text =  surplus
-    update.message.reply_text(text)
-    if 
+    update.message.reply_text(text) 
     text2 = "User {} with chat_id:{}  started the bot\nUser is {} authorized".format(username, update.message.chat_id, tkn) 
     username = update.message.from_user.name
     bot2.sendMessage(chat_id = my_actual_chat_id, text = text2)
