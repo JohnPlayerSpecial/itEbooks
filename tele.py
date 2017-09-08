@@ -49,8 +49,8 @@ def start(bot, update):
         tkn = "not"
         text =  surplus
     update.message.reply_text(text) 
-    text2 = "User {} with chat_id:{}  started the bot\nUser is {} authorized".format(username, update.message.chat_id, tkn) 
     username = update.message.from_user.name
+    text2 = "User {} with chat_id:{}  started the bot\nUser is {} authorized".format(username, update.message.chat_id, tkn) 
     bot2.sendMessage(chat_id = my_actual_chat_id, text = text2)
 
 
